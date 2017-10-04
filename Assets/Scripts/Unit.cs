@@ -1,11 +1,13 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Unit : MonoBehaviour {
+public class Unit : MonoBehaviour, IComparable<Unit> {
 
     public Transform target;
     public float speed = 20;
+    public int initiative;
     public bool ally;
     Vector3[] path;
     int targetIndex;
@@ -68,6 +70,22 @@ public class Unit : MonoBehaviour {
                     Gizmos.DrawLine(path[i - 1], path[i]);
                 }
             }
+        }
+    }
+
+    public int CompareTo(Unit other)
+    {
+        if(initiative > other.initiative)
+        {
+            return 1;
+        }
+        else if(initiative == other.initiative)
+        {
+            return 0;
+        }
+        else
+        {
+            return -1;
         }
     }
 }
