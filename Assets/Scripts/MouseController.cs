@@ -24,23 +24,29 @@ public class MouseController : MonoBehaviour {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit hitInfo;
 
-        if(plane.GetComponent<Collider>().Raycast(ray, out hitInfo, Mathf.Infinity))
+        if (plane.GetComponent<Collider>().Raycast(ray, out hitInfo, Mathf.Infinity))
         {
             int x = Mathf.FloorToInt(hitInfo.point.x / grid.nodeRadius * 0.5f);
             int y = Mathf.FloorToInt(hitInfo.point.z / grid.nodeRadius * 0.5f);
 
             currentTileCoord.x = x + 0.5f;
             currentTileCoord.z = y + 0.5f;
-            if (previousTileCoord != currentTileCoord)
-            {
-                selectionCube.position = currentTileCoord;
-                PathRequestManager.RequestPath(unit.transform.position, selectionCube.position, OnPathFound);
-            }
-            //Debug.Log(currentTileCoord.x.ToString() + ',' + currentTileCoord.z.ToString());
-            if (Input.GetMouseButtonDown(0))
-            {
-                unit.MouseDown();
-            }
+            //if (Mathf.Sqrt(
+            //    Mathf.Pow((unit.transform.position.x-currentTileCoord.x), 2) + 
+            //    Mathf.Pow((unit.transform.position.z - currentTileCoord.z), 2))
+            //    <= 5f)
+            //{
+                if (previousTileCoord != currentTileCoord)
+                {
+                    selectionCube.position = currentTileCoord;
+                    PathRequestManager.RequestPath(unit.transform.position, selectionCube.position, OnPathFound);
+                }
+                //Debug.Log(currentTileCoord.x.ToString() + ',' + currentTileCoord.z.ToString());
+                if (Input.GetMouseButtonDown(0))
+                {
+                    unit.MouseDown();
+                }
+            //}
             previousTileCoord = currentTileCoord;
         }
     }

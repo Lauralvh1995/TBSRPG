@@ -7,14 +7,13 @@ Material:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_Name: TileGrid 1
-  m_Shader: {fileID: 46, guid: 0000000000000000f000000000000000, type: 0}
+  m_Shader: {fileID: 4800000, guid: f4116472b7dbd3442bd26695e1aecdbd, type: 3}
   m_ShaderKeywords: _ALPHAPREMULTIPLY_ON _EMISSION _SMOOTHNESS_TEXTURE_ALBEDO_CHANNEL_A
   m_LightmapFlags: 2
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: 3000
-  stringTagMap:
-    RenderType: Transparent
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
   disabledShaderPasses: []
   m_SavedProperties:
     serializedVersion: 3
@@ -75,3 +74,4 @@ Material:
     m_Colors:
     - _Color: {r: 1, g: 0, b: 0, a: 0.11764706}
     - _EmissionColor: {r: 0.3, g: 0, b: 0, a: 1}
+    - _OccludeColor: {r: 1, g: 0, b: 0.84827566, a: 1}
