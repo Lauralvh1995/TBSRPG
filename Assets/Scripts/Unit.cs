@@ -7,6 +7,7 @@ public class Unit : MonoBehaviour, IComparable<Unit> {
 
     
     public float speed = 20;
+    public float rotationSpeed = 50;
     public int initiative;
     public bool ally;
     Vector3[] path;
@@ -53,6 +54,12 @@ public class Unit : MonoBehaviour, IComparable<Unit> {
                 }
                 currentWaypoint = path[targetIndex];
             }
+            //Rotate Towards Next Waypoint
+            Vector3 targetDir = currentWaypoint - transform.position;
+            float step = rotationSpeed * Time.deltaTime;
+            Vector3 newDir = Vector3.RotateTowards(transform.forward, targetDir, step, 0.0F);
+            transform.rotation = Quaternion.LookRotation(newDir);
+
             transform.position = Vector3.MoveTowards(transform.position, currentWaypoint, speed * Time.deltaTime);
             yield return null;
         }
