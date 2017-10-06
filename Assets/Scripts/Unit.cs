@@ -5,16 +5,21 @@ using UnityEngine;
 
 public class Unit : MonoBehaviour, IComparable<Unit> {
 
-    public Transform target;
+    
     public float speed = 20;
     public int initiative;
     public bool ally;
     Vector3[] path;
     int targetIndex;
+    Transform target;
 
-    public void MouseDown()
+    public bool MouseDown()
     {
-        PathRequestManager.RequestPath(transform.position, target.position, OnPathFound);
+        if (PathRequestManager.RequestPath(transform.position, target.position, OnPathFound))
+        {
+            return true;
+        }
+        return false;
     }
 
     public void OnPathFound(Vector3[] newPath, bool pathSuccessful)
@@ -87,5 +92,10 @@ public class Unit : MonoBehaviour, IComparable<Unit> {
         {
             return -1;
         }
+    }
+
+    public void SetTarget(Transform transform)
+    {
+        target = transform;
     }
 }

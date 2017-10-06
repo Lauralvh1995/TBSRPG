@@ -2,22 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MouseController : MonoBehaviour {
+public class MouseController : PlayerController {
 
-    public Transform selectionCube;
-    public Transform plane;
-    public Unit unit;
-    public LineRenderer lineRenderer;
 
-    Vector3[] path;
     Vector3 currentTileCoord;
     Vector3 previousTileCoord;
-    Grid grid;
-
-    void Awake()
-    {
-        grid = GetComponent<Grid>();
-    }
 
     void Update()
     {
@@ -31,22 +20,14 @@ public class MouseController : MonoBehaviour {
 
             currentTileCoord.x = x + 0.5f;
             currentTileCoord.z = y + 0.5f;
-            //if (Mathf.Sqrt(
-            //    Mathf.Pow((unit.transform.position.x-currentTileCoord.x), 2) + 
-            //    Mathf.Pow((unit.transform.position.z - currentTileCoord.z), 2))
-            //    <= 5f)
-            //{
-                if (previousTileCoord != currentTileCoord)
-                {
-                    selectionCube.position = currentTileCoord;
-                    PathRequestManager.RequestPath(unit.transform.position, selectionCube.position, OnPathFound);
-                }
+
+            if (previousTileCoord != currentTileCoord)
+            {
+                selectionCube.position = currentTileCoord;
+                PathRequestManager.RequestPath(setUnit.transform.position, selectionCube.position, OnPathFound);
+            }
                 //Debug.Log(currentTileCoord.x.ToString() + ',' + currentTileCoord.z.ToString());
-                if (Input.GetMouseButtonDown(0))
-                {
-                    unit.MouseDown();
-                }
-            //}
+            setUnit.SetTarget(selectionCube);
             previousTileCoord = currentTileCoord;
         }
     }
@@ -55,7 +36,6 @@ public class MouseController : MonoBehaviour {
         if (pathSuccessful)
         {
             path = newPath;
-            //int targetIndex = 0;
             if (this != null)
             {
                 lineRenderer.positionCount = path.Length;
@@ -64,4 +44,12 @@ public class MouseController : MonoBehaviour {
         }
     }
 
+    public bool MouseDown()
+    {
+        if(setUnit.MouseDown())
+        {
+            return true;
+        }
+        return false;
+    }
 }

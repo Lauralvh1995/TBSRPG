@@ -22,7 +22,7 @@ GameObject:
   - component: {fileID: 33258409682474680}
   - component: {fileID: 135323372236080314}
   - component: {fileID: 23576440771930104}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Sphere
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -40,7 +40,7 @@ GameObject:
   - component: {fileID: 33383373114266940}
   - component: {fileID: 136356653772810150}
   - component: {fileID: 23934224618345954}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Seeker
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -56,7 +56,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4828261115763988}
   - component: {fileID: 114297589026338148}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: EnemyUnit
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -74,7 +74,7 @@ GameObject:
   - component: {fileID: 33104253686076040}
   - component: {fileID: 135849600555888988}
   - component: {fileID: 23877369711786214}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Sphere (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -264,7 +264,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c9b9a7bcbb6aa8744a146bb85ff055eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  target: {fileID: 0}
   speed: 5
   initiative: 5
   ally: 0

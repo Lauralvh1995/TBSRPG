@@ -17,12 +17,21 @@ public class Grid : MonoBehaviour
 
     float nodeDiameter;
     int gridSizeX, gridSizeY;
+    List<Unit> units;
+    MouseController mouseController;
+
+    System.Random rando;
 
     void Awake()
     {
         nodeDiameter = nodeRadius * 2;
         gridSizeX = Mathf.RoundToInt(gridWorldSize.x / nodeDiameter);
         gridSizeY = Mathf.RoundToInt(gridWorldSize.y / nodeDiameter);
+        rando = new System.Random();
+        units = new List<Unit>();
+
+        mouseController = GetComponent<MouseController>();
+
         CreateGrid();
     }
 
@@ -49,6 +58,19 @@ public class Grid : MonoBehaviour
                 if(grid[x,y].IsWalkable)
                 {
                     Instantiate(gridPrefabPassable, new Vector3(x - 5, 0, y - 4.5f), Quaternion.Euler(0, 0, 0));
+                    //int i = rando.Next(0, 100);
+                    //if (i >= 90)
+                    //{
+                    //    if (i % 2 == 0)
+                    //    {
+                    //        Instantiate(AllyPrefab, new Vector3(x - 4.5f, 0, y - 4.5f), Quaternion.Euler(0, 0, 0));
+
+                    //    }
+                    //    else
+                    //    {
+                    //        Instantiate(EnemyPrefab, new Vector3(x - 4.5f, 0, y - 4.5f), Quaternion.Euler(0, 0, 0));
+                    //    }
+                    //}
                 }
                 else
                 {

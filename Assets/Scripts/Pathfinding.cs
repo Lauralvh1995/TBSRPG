@@ -77,10 +77,6 @@ public class Pathfinding : MonoBehaviour
         if (pathSuccess)
         {
             waypoints = RetracePath(startNode, targetNode);
-            if(waypoints.Length == 0)
-            {
-                pathSuccess = false;
-            }
         }
         requestManager.FinishedProcessingPath(waypoints, pathSuccess);
 
@@ -117,14 +113,10 @@ public class Pathfinding : MonoBehaviour
             path.Add(currentNode);
         }
         path.Add(startNode);
-        if (path.Count <= 7)
-        {
-            Vector3[] waypoints = SimplifyPath(path);
-            Array.Reverse(waypoints);
-            return waypoints;
-        }
-        return new Vector3[0];
 
+        Vector3[] waypoints = SimplifyPath(path);
+        Array.Reverse(waypoints);
+        return waypoints;
     }
     private Vector3[] SimplifyPath(List<Node> path)
     {
