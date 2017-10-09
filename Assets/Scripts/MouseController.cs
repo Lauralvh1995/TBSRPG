@@ -46,10 +46,6 @@ public class MouseController : PlayerController {
 
     public bool MouseDown()
     {
-        if(setUnit.MouseDown())
-        {
-            return true;
-        }
-        return false;
+        return setUnit.MouseDown();
     }
 }

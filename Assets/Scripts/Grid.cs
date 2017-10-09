@@ -11,7 +11,6 @@ public class Grid : MonoBehaviour
     public Vector3 worldBottomLeft;
 
     public Transform gridPrefabPassable;
-    public Transform gridPrefabImpassable;
 
     Node[,] grid;
 
@@ -71,12 +70,7 @@ public class Grid : MonoBehaviour
                     //        Instantiate(EnemyPrefab, new Vector3(x - 4.5f, 0, y - 4.5f), Quaternion.Euler(0, 0, 0));
                     //    }
                     //}
-                }
-                else
-                {
-                    Instantiate(gridPrefabImpassable, new Vector3(x - 5, 0, y - 4.5f), Quaternion.Euler(0, 0, 0));
-                }
-                
+                }                
             }
         }
     }
