@@ -73,7 +73,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4065457218147022}
-  - component: {fileID: 114041923038145484}
+  - component: {fileID: 114237962286030914}
   m_Layer: 8
   m_Name: AllyUnit
   m_TagString: Untagged
@@ -253,7 +253,7 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1051650247040724}
   m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
---- !u!114 &114041923038145484
+--- !u!114 &114237962286030914
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -261,13 +261,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 1602201615903566}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c9b9a7bcbb6aa8744a146bb85ff055eb, type: 3}
+  m_Script: {fileID: 11500000, guid: ab65f9a505525b94cab9f883919d95e3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 5
-  rotationSpeed: 10
+  rotationSpeed: 50
   initiative: 3
-  ally: 1
+  maxAP: 2
+  AP: 2
+  threatValue: 3
+  walkingDist: 2
+  equipped: {fileID: 0}
 --- !u!135 &135081593317691888
 SphereCollider:
   m_ObjectHideFlags: 1

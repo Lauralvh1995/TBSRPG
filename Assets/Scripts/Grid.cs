@@ -6,6 +6,8 @@ public class Grid : MonoBehaviour
 {
     public bool displayGridGizmos;
     public LayerMask unwalkableMask;
+    public LayerMask halfCoverMask;
+    public LayerMask fullCoverMask;
     public Vector2 gridWorldSize;
     public float nodeRadius;
     public Vector3 worldBottomLeft;
@@ -51,10 +53,18 @@ public class Grid : MonoBehaviour
                 Vector3 worldPoint = worldBottomLeft + Vector3.right * (x * nodeDiameter + nodeRadius) + Vector3.forward * (y * nodeDiameter + nodeRadius);
                 bool walkable = !(Physics.CheckSphere(worldPoint, nodeRadius, unwalkableMask));
                 grid[x, y] = new Node(walkable, worldPoint, x, y);
-                if(grid[x,y].IsWalkable)
+                if(grid[x, y].IsWalkable)
                 {
                     Instantiate(gridPrefabPassable, new Vector3(x - 5, 0, y - 4.5f), Quaternion.Euler(0, 0, 0));
-                }                
+                }
+                if(Physics.CheckSphere(worldPoint, nodeRadius, halfCoverMask))
+                {
+                    grid[x, y].coverValue = 1;
+                }
+                if (Physics.CheckSphere(worldPoint, nodeRadius, fullCoverMask))
+                {
+                    grid[x, y].coverValue = 2;
+                }
             }
         }
     }

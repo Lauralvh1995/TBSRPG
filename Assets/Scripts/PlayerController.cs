@@ -24,5 +24,17 @@ public abstract class PlayerController : MonoBehaviour
     {
         setUnit = unit;
     }
+    public void OnPathFound(Vector3[] newPath, bool pathSuccessful)
+    {
+        if (pathSuccessful)
+        {
+            path = newPath;
+            if (this != null)
+            {
+                lineRenderer.positionCount = path.Length;
+                lineRenderer.SetPositions(path);
+            }
+        }
+    }
 }
     

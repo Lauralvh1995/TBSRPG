@@ -6,6 +6,7 @@ using UnityEngine;
 public class Node : IHeapItem<Node>
 {
     public bool IsWalkable;
+    public int coverValue;
     public Vector3 WorldPosition;
 
     public Node parent;

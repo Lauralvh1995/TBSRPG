@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Unit : MonoBehaviour, IComparable<Unit> {
+public abstract class Unit : MonoBehaviour, IComparable<Unit> {
 
     
     public float speed = 20;
@@ -11,10 +11,15 @@ public class Unit : MonoBehaviour, IComparable<Unit> {
     public int initiative;
     public int maxAP;
     public int AP;
-    public bool ally;
+    public int threatValue;
+    public int walkingDist;
+
+    public Weapon equipped;
+
     Vector3[] path;
     int targetIndex;
     Transform target;
+
 
     public bool MouseDown()
     {

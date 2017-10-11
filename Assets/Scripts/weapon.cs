@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using UnityEngine;
 
-class Weapon : MonoBehaviour
+public class Weapon : MonoBehaviour
 {
     int attackRange;
     int damage;

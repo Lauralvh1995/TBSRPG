@@ -31,19 +31,6 @@ public class MouseController : PlayerController {
             previousTileCoord = currentTileCoord;
         }
     }
-    void OnPathFound(Vector3[] newPath, bool pathSuccessful)
-    {
-        if (pathSuccessful)
-        {
-            path = newPath;
-            if (this != null)
-            {
-                lineRenderer.positionCount = path.Length;
-                lineRenderer.SetPositions(path);
-            }
-        }
-    }
-
     public bool MouseDown()
     {
         return setUnit.MouseDown();
