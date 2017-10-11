@@ -14,6 +14,8 @@ class GameController : MonoBehaviour
 
     public Transform SelectorPrefab;
 
+    public LineRenderer lineRenderer;
+
     Grid grid;
     MouseController mouseController;
 
@@ -34,14 +36,17 @@ class GameController : MonoBehaviour
     void Setup()
     {
         unit1 = Instantiate(AllyPrefab, new Vector3(-2.5f, 0, -2.5f), Quaternion.Euler(0, 0, 0)).GetComponent<Unit>();
-        unit2 = Instantiate(EnemyPrefab, new Vector3(2.5f, 0, -2.5f), Quaternion.Euler(0, 0, 0)).GetComponent<Unit>();
+        unit2 = Instantiate(EnemyPrefab, new Vector3(2.5f, 0, 2.5f), Quaternion.Euler(0, 0, 0)).GetComponent<Unit>();
 
         units.Add(unit1);
         units.Add(unit2);
 
+        units.Sort();
+
         currentUnit = units[0];
         mouseController.SetUnit(currentUnit);
         mouseController.selectionCube = Instantiate(SelectorPrefab, new Vector3(0, 0, 0), Quaternion.Euler(0, 0, 0));
+        mouseController.lineRenderer = Instantiate(lineRenderer);
     }
 
     private void Update()

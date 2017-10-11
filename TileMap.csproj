@@ -88,10 +88,12 @@
     <Compile Include="Assets\Scripts\PathRequestManager.cs" />
     <Compile Include="Assets\Scripts\PlayerController.cs" />
     <Compile Include="Assets\Scripts\Unit.cs" />
+    <Compile Include="Assets\Scripts\weapon.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Materials\BehindWalls.shader" />
     <None Include="Assets\Materials\Standard.shader" />
+    <None Include="Assets\Unity Set Builder\Set Builder\Hong Kong\Textures and Shaders\Reflect-BumpSpec.shader" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="GenerateTargetFrameworkMonikerAttribute" />

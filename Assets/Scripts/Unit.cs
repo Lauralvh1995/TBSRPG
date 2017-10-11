@@ -9,6 +9,8 @@ public class Unit : MonoBehaviour, IComparable<Unit> {
     public float speed = 20;
     public float rotationSpeed = 50;
     public int initiative;
+    public int maxAP;
+    public int AP;
     public bool ally;
     Vector3[] path;
     int targetIndex;
@@ -16,11 +18,7 @@ public class Unit : MonoBehaviour, IComparable<Unit> {
 
     public bool MouseDown()
     {
-        if (PathRequestManager.RequestPath(transform.position, target.position, OnPathFound))
-        {
-            return true;
-        }
-        return false;
+        return PathRequestManager.RequestPath(transform.position, target.position, OnPathFound);
     }
 
     public void OnPathFound(Vector3[] newPath, bool pathSuccessful)
