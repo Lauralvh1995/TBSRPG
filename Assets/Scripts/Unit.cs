@@ -11,7 +11,6 @@ public abstract class Unit : MonoBehaviour, IComparable<Unit> {
     public int initiative;
     public int maxAP;
     public int AP;
-    public int threatValue;
     public int walkingDist;
 
     public Weapon equipped;
@@ -107,5 +106,10 @@ public abstract class Unit : MonoBehaviour, IComparable<Unit> {
     public void SetTarget(Transform transform)
     {
         target = transform;
+    }
+
+    public void Attack(Unit unit)
+    {
+        throw new NotImplementedException();
     }
 }

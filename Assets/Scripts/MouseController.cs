@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class MouseController : PlayerController {
 
-
+    public Transform cameraTransform;
     Vector3 currentTileCoord;
     Vector3 previousTileCoord;
 
@@ -30,9 +30,50 @@ public class MouseController : PlayerController {
             setUnit.SetTarget(selectionCube);
             previousTileCoord = currentTileCoord;
         }
+        MoveCamera();
     }
     public bool MouseDown()
     {
         return setUnit.MouseDown();
     }
+
+    void MoveCamera()
+    {
+        float mousePosX = Input.mousePosition.x;
+        float mousePosY = Input.mousePosition.y;
+        int scrollDistance = 5;
+        float scrollSpeed = 20;
+        if (mousePosX < scrollDistance)
+        {
+            cameraTransform.Translate(new Vector3(-1, 0, 1) * scrollSpeed * Time.deltaTime);
+            
+        }
+
+        if (mousePosX >= Screen.width - scrollDistance)
+        {
+            cameraTransform.Translate(new Vector3(-1, 0, 1) * -scrollSpeed * Time.deltaTime);
+            
+        }
+
+        if (mousePosY < scrollDistance)
+        {
+            cameraTransform.Translate(new Vector3(1, 0, 1) * -scrollSpeed * Time.deltaTime);
+        }
+
+        if (mousePosY >= Screen.height - scrollDistance)
+        {
+            cameraTransform.Translate(new Vector3(1, 0, 1) * scrollSpeed * Time.deltaTime);
+        }
+
+        if (Input.GetAxis("Mouse ScrollWheel") > 0f)
+        {
+            cameraTransform.Translate(new Vector3(1, -1, 1) * scrollSpeed * Time.deltaTime);
+        }
+
+        if (Input.GetAxis("Mouse ScrollWheel") < 0f)
+        {
+            cameraTransform.Translate(new Vector3(-1, 1, -1) * scrollSpeed * Time.deltaTime);
+        }
+    }
 }
+

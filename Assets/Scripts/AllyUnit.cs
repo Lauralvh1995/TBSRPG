@@ -5,6 +5,8 @@ using System.Text;
 
 public class AllyUnit : Unit
 {
+    public int threatValue;
+
     List<Weapon> weaponList;
     private void Awake()
     {

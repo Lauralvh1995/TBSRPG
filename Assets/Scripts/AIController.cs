@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using UnityEngine;
 
-class AIController : PlayerController
+public class AIController : PlayerController
 {
     
 }
