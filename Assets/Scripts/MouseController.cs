@@ -32,9 +32,9 @@ public class MouseController : PlayerController {
         }
         MoveCamera();
     }
-    public bool MouseDown()
+    public void MouseDown()
     {
-        return setUnit.MouseDown();
+        StartCoroutine(setUnit.Move());
     }
 
     void MoveCamera()

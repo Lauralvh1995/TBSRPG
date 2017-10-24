@@ -6,8 +6,11 @@ using UnityEngine;
 
 class GameController : MonoBehaviour
 {
-    public Unit unit1;
-    public Unit unit2;
+    Unit unit1;
+    Unit unit2;
+    Unit unit3;
+    Unit unit4;
+
 
     public Transform AllyPrefab;
     public Transform EnemyPrefab;
@@ -39,10 +42,14 @@ class GameController : MonoBehaviour
     void Setup()
     {
         unit1 = Instantiate(AllyPrefab, new Vector3(-2.5f, 0, -2.5f), Quaternion.Euler(0, 0, 0)).GetComponent<AllyUnit>();
-        unit2 = Instantiate(EnemyPrefab, new Vector3(2.5f, 0, 2.5f), Quaternion.Euler(0, 0, 0)).GetComponent<EnemyUnit>();
+        unit2 = Instantiate(EnemyPrefab, new Vector3(-1.5f, 0, -2.5f), Quaternion.Euler(0, 0, 0)).GetComponent<EnemyUnit>();
+        unit3 = Instantiate(EnemyPrefab, new Vector3(2.5f, 0, 2.5f), Quaternion.Euler(0, 0, 0)).GetComponent<EnemyUnit>();
+        unit4 = Instantiate(AllyPrefab, new Vector3(-2.5f, 0, -0.5f), Quaternion.Euler(0, 0, 0)).GetComponent<AllyUnit>();
 
         units.Add(unit1);
         units.Add(unit2);
+        units.Add(unit3);
+        units.Add(unit4);
 
         units.Sort();
 
@@ -58,42 +65,36 @@ class GameController : MonoBehaviour
     {
         if (currentUnit is AllyUnit)
         {
-
             if (Input.GetMouseButtonDown(0))
             {
                 mouseController.MouseDown();
-
-                if (initiativeCount % 2 != 0)
-                {
-                    initiativeCount++;
-                    currentUnit = units[0];
-                }
-                else if (initiativeCount % 2 == 0)
-                {
-                    initiativeCount++;
-                    currentUnit = units[1];
-                }
+                NextTurn();
             }
+        }
+        else
+        {
+            aiController.GetPath();
+            NextTurn();
+        }
+    }
+
+    void NextTurn()
+    {
+        initiativeCount++;
+        if(initiativeCount > units.Count)
+        {
+            initiativeCount = 0;
+        }
+        currentUnit = units[initiativeCount];
+        if(currentUnit is AllyUnit)
+        {
             mouseController.SetUnit(currentUnit);
+            aiController.SetUnit(null);
         }
         else
         {
             aiController.SetUnit(currentUnit);
-            aiController.GetPath(aiController.Move());
-            if (initiativeCount % 2 != 0)
-            {
-                initiativeCount++;
-                currentUnit = units[0];
-            }
-            else if (initiativeCount % 2 == 0)
-            {
-                initiativeCount++;
-                currentUnit = units[1];
-            }
-            else
-            {
-
-            }
+            mouseController.SetUnit(null);
         }
     }
 }

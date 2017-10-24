@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections;
 using System.Linq;
 using System.Text;
 using UnityEngine;
@@ -12,8 +13,7 @@ public class AIController : PlayerController
     {
         return rando.Next(0, 7);
     }
-
-    public void GetPath(int dir)
+    public void GetPath()
     {
         Vector3 newPos = new Vector3();
         while (true)
@@ -60,8 +60,8 @@ public class AIController : PlayerController
                 selectionCube.position = newPos;
                 PathRequestManager.RequestPath(setUnit.transform.position, selectionCube.position, OnPathFound);
                 setUnit.SetTarget(selectionCube);
-                setUnit.MouseDown();
-                return;
+                StartCoroutine(setUnit.Move());
+                //return;
             }
         }
     }

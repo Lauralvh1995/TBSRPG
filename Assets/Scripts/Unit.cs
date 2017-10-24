@@ -20,9 +20,9 @@ public abstract class Unit : MonoBehaviour, IComparable<Unit> {
     Transform target;
 
 
-    public bool MouseDown()
+    public IEnumerator Move()
     {
-        return PathRequestManager.RequestPath(transform.position, target.position, OnPathFound);
+        yield return new WaitUntil(() => PathRequestManager.RequestPath(transform.position, target.position, OnPathFound));
     }
 
     public void OnPathFound(Vector3[] newPath, bool pathSuccessful)
@@ -61,7 +61,6 @@ public abstract class Unit : MonoBehaviour, IComparable<Unit> {
             float step = rotationSpeed * Time.deltaTime;
             Vector3 newDir = Vector3.RotateTowards(transform.forward, targetDir, step, 0.0F);
             transform.rotation = Quaternion.LookRotation(newDir);
-
             transform.position = Vector3.MoveTowards(transform.position, currentWaypoint, speed * Time.deltaTime);
             yield return null;
         }
