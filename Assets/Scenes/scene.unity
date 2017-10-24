@@ -2045,8 +2045,8 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1250858535}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 9.205, y: 12, z: -3.729}
-  m_LocalScale: {x: 8, y: 0.1, z: 1}
+  m_LocalPosition: {x: 9.205, y: 12, z: -3.98}
+  m_LocalScale: {x: 8, y: 0.1, z: 0.5}
   m_Children: []
   m_Father: {fileID: 534748960}
   m_RootOrder: 4
@@ -2715,6 +2715,7 @@ GameObject:
   - component: {fileID: 1581359711}
   - component: {fileID: 1581359712}
   - component: {fileID: 1581359713}
+  - component: {fileID: 1581359714}
   m_Layer: 0
   m_Name: A-star
   m_TagString: Untagged
@@ -2794,9 +2795,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fcdf36a84fb960a4580d0681813e918a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  selectionCube: {fileID: 0}
   plane: {fileID: 1918344913}
   lineRenderer: {fileID: 0}
+  selectionCube: {fileID: 0}
   cameraTransform: {fileID: 472061909}
 --- !u!114 &1581359713
 MonoBehaviour:
@@ -2816,8 +2817,24 @@ MonoBehaviour:
     type: 2}
   SelectorPrefab: {fileID: 4219692585347726, guid: 0f129f6411c53954a842e0e2ea13fc96,
     type: 2}
+  AISelectorPrefab: {fileID: 4984436822611506, guid: 18e0d0289d5ebbe49b3a330e3f5b0faa,
+    type: 2}
   lineRenderer: {fileID: 120865906067614412, guid: 2303ae25ae0e83f4e953273643f028ba,
     type: 2}
+--- !u!114 &1581359714
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1581359707}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aac06f4f6236a424abc1f546edb854e6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  plane: {fileID: 1918344913}
+  lineRenderer: {fileID: 0}
+  selectionCube: {fileID: 0}
 --- !u!1 &1588121449
 GameObject:
   m_ObjectHideFlags: 0

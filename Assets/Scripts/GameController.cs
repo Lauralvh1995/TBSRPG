@@ -13,11 +13,13 @@ class GameController : MonoBehaviour
     public Transform EnemyPrefab;
 
     public Transform SelectorPrefab;
+    public Transform AISelectorPrefab;
 
     public LineRenderer lineRenderer;
 
     Grid grid;
     MouseController mouseController;
+    AIController aiController;
 
     List<Unit> units;
     Unit currentUnit;
@@ -28,6 +30,7 @@ class GameController : MonoBehaviour
     {
         grid = GetComponent<Grid>();
         mouseController = GetComponent<MouseController>();
+        aiController = GetComponent<AIController>();
         units = new List<Unit>();
 
         Setup();
@@ -46,34 +49,52 @@ class GameController : MonoBehaviour
         currentUnit = units[0];
         mouseController.SetUnit(currentUnit);
         mouseController.selectionCube = Instantiate(SelectorPrefab, new Vector3(0, 0, 0), Quaternion.Euler(0, 0, 0));
+        aiController.selectionCube = Instantiate(AISelectorPrefab, new Vector3(0, 0, 0), Quaternion.Euler(0, 0, 0));
         mouseController.lineRenderer = Instantiate(lineRenderer);
+        aiController.lineRenderer = Instantiate(lineRenderer);
     }
 
     private void Update()
     {
-        if (Input.GetMouseButtonDown(0))
+        if (currentUnit is AllyUnit)
         {
-            bool legalMove = mouseController.MouseDown();
-            if(legalMove)
+
+            if (Input.GetMouseButtonDown(0))
             {
+                mouseController.MouseDown();
+
                 if (initiativeCount % 2 != 0)
                 {
                     initiativeCount++;
                     currentUnit = units[0];
                 }
-                else if(initiativeCount%2 == 0)
+                else if (initiativeCount % 2 == 0)
                 {
                     initiativeCount++;
                     currentUnit = units[1];
                 }
-                else
-                {
-
-                }
             }
             mouseController.SetUnit(currentUnit);
         }
-    }
+        else
+        {
+            aiController.SetUnit(currentUnit);
+            aiController.GetPath(aiController.Move());
+            if (initiativeCount % 2 != 0)
+            {
+                initiativeCount++;
+                currentUnit = units[0];
+            }
+            else if (initiativeCount % 2 == 0)
+            {
+                initiativeCount++;
+                currentUnit = units[1];
+            }
+            else
+            {
 
+            }
+        }
+    }
 }
 

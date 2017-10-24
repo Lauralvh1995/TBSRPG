@@ -6,9 +6,9 @@ using UnityEngine;
 
 public abstract class PlayerController : MonoBehaviour
 {
-    public Transform selectionCube;
     public Transform plane;
     public LineRenderer lineRenderer;
+    public Transform selectionCube;
 
     protected Unit setUnit;
     protected Vector3[] path;
