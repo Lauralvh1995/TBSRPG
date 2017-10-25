@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections;
 using System.Linq;
 using System.Text;
 using UnityEngine;
@@ -26,6 +27,7 @@ public abstract class PlayerController : MonoBehaviour
     }
     public void OnPathFound(Vector3[] newPath, bool pathSuccessful)
     {
+        lineRenderer.enabled = false;
         if (pathSuccessful)
         {
             path = newPath;
@@ -33,6 +35,7 @@ public abstract class PlayerController : MonoBehaviour
             {
                 lineRenderer.positionCount = path.Length;
                 lineRenderer.SetPositions(path);
+                lineRenderer.enabled = true;
             }
         }
     }

@@ -12,6 +12,7 @@ public abstract class Unit : MonoBehaviour, IComparable<Unit> {
     public int maxAP;
     public int AP;
     public int walkingDist;
+    public bool walking = false;
 
     public Weapon equipped;
 
@@ -20,9 +21,9 @@ public abstract class Unit : MonoBehaviour, IComparable<Unit> {
     Transform target;
 
 
-    public IEnumerator Move()
+    public IEnumerator MoveUnit()
     {
-        yield return new WaitUntil(() => PathRequestManager.RequestPath(transform.position, target.position, OnPathFound));
+        yield return PathRequestManager.RequestPath(transform.position, target.position, OnPathFound);
     }
 
     public void OnPathFound(Vector3[] newPath, bool pathSuccessful)
@@ -41,6 +42,7 @@ public abstract class Unit : MonoBehaviour, IComparable<Unit> {
 
     IEnumerator FollowPath()
     {
+        walking = true;
         Vector3 currentWaypoint = path[0];
         targetIndex = 0;
         while (true)
@@ -52,6 +54,7 @@ public abstract class Unit : MonoBehaviour, IComparable<Unit> {
                 {
                     targetIndex = 0;
                     path = new Vector3[0];
+                    walking = false;
                     yield break;
                 }
                 currentWaypoint = path[targetIndex];

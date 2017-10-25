@@ -2740,10 +2740,10 @@ MonoBehaviour:
     m_Bits: 256
   halfCoverMask:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 512
   fullCoverMask:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 1024
   gridWorldSize: {x: 10, y: 10}
   nodeRadius: 0.5
   worldBottomLeft: {x: 0, y: 0, z: 0}
@@ -2810,8 +2810,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ec2fb220206a6aa4faa8bd5828830528, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  unit1: {fileID: 0}
-  unit2: {fileID: 0}
   AllyPrefab: {fileID: 4065457218147022, guid: 28962b352f5a4954ca478f4ba3eb45df, type: 2}
   EnemyPrefab: {fileID: 4828261115763988, guid: 4e6639c6c9996a644938331c7e6e4367,
     type: 2}

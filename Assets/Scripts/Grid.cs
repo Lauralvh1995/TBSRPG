@@ -8,6 +8,8 @@ public class Grid : MonoBehaviour
     public LayerMask unwalkableMask;
     public LayerMask halfCoverMask;
     public LayerMask fullCoverMask;
+    public LayerMask allyMask;
+    public LayerMask enemyMask;
     public Vector2 gridWorldSize;
     public float nodeRadius;
     public Vector3 worldBottomLeft;
@@ -64,6 +66,38 @@ public class Grid : MonoBehaviour
                 if (Physics.CheckSphere(worldPoint, nodeRadius, fullCoverMask))
                 {
                     grid[x, y].coverValue = 2;
+                }
+            }
+        }
+    }
+
+    public void CheckPassability(bool ally)
+    {
+        if (ally)
+        {
+            foreach (Node node in grid)
+            {
+                if(!Physics.CheckSphere(node.WorldPosition, nodeRadius, enemyMask) && !Physics.CheckSphere(node.WorldPosition, nodeRadius, unwalkableMask))
+                {
+                    node.IsWalkable = true;
+                }
+                else
+                {
+                    node.IsWalkable = false;
+                }
+            }
+        }
+        else
+        {
+            foreach (Node node in grid)
+            {
+                if (!Physics.CheckSphere(node.WorldPosition, nodeRadius, allyMask) && !Physics.CheckSphere(node.WorldPosition, nodeRadius, unwalkableMask))
+                {
+                    node.IsWalkable = true;
+                }
+                else
+                {
+                    node.IsWalkable = false;
                 }
             }
         }
