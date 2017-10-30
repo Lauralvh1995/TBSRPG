@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using UnityEngine;
 
 public abstract class Unit : MonoBehaviour, IComparable<Unit> {
@@ -12,18 +13,19 @@ public abstract class Unit : MonoBehaviour, IComparable<Unit> {
     public int maxAP;
     public int AP;
     public int walkingDist;
-    public bool walking = false;
 
     public Weapon equipped;
 
     Vector3[] path;
     int targetIndex;
-    Transform target;
+    public Transform target;
+    Vector3 currentWaypoint;
+    Stopwatch timer = new Stopwatch();
 
 
     public IEnumerator MoveUnit()
     {
-        yield return PathRequestManager.RequestPath(transform.position, target.position, OnPathFound);
+        yield return StartCoroutine(PathRequestManager.RequestPath(transform.position, target.position, OnPathFound));
     }
 
     public void OnPathFound(Vector3[] newPath, bool pathSuccessful)
@@ -42,8 +44,8 @@ public abstract class Unit : MonoBehaviour, IComparable<Unit> {
 
     IEnumerator FollowPath()
     {
-        walking = true;
-        Vector3 currentWaypoint = path[0];
+        timer.Start();
+        currentWaypoint = path[0];
         targetIndex = 0;
         while (true)
         {
@@ -52,10 +54,16 @@ public abstract class Unit : MonoBehaviour, IComparable<Unit> {
                 targetIndex++;
                 if (targetIndex >= path.Length)
                 {
+                    timer.Stop();
+                    UnityEngine.Debug.Log(timer.Elapsed);
+                    if (transform.position == currentWaypoint)
+                    {
+                        GameController.instance.Done(true);
+                        GameController.instance.wait = false;
+                    }
                     targetIndex = 0;
                     path = new Vector3[0];
-                    walking = false;
-                    yield break;
+                    yield break;                    
                 }
                 currentWaypoint = path[targetIndex];
             }

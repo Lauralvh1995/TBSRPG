@@ -59,7 +59,7 @@ public class Grid : MonoBehaviour
                 {
                     Instantiate(gridPrefabPassable, new Vector3(x - 5, 0, y - 4.5f), Quaternion.Euler(0, 0, 0));
                 }
-                if(Physics.CheckSphere(worldPoint, nodeRadius, halfCoverMask))
+                if (Physics.CheckSphere(worldPoint, nodeRadius, halfCoverMask))
                 {
                     grid[x, y].coverValue = 1;
                 }
@@ -73,32 +73,42 @@ public class Grid : MonoBehaviour
 
     public void CheckPassability(bool ally)
     {
+        var passabilities = GameObject.FindGameObjectsWithTag("pass");
+        foreach (var item in passabilities)
+        {
+            Destroy(item);
+        }
         if (ally)
         {
-            foreach (Node node in grid)
-            {
-                if(!Physics.CheckSphere(node.WorldPosition, nodeRadius, enemyMask) && !Physics.CheckSphere(node.WorldPosition, nodeRadius, unwalkableMask))
-                {
-                    node.IsWalkable = true;
-                }
-                else
-                {
-                    node.IsWalkable = false;
-                }
-            }
+            UpdateGrid(enemyMask);
         }
         else
         {
-            foreach (Node node in grid)
+            UpdateGrid(allyMask);
+        }
+        foreach (Node node in grid)
+        {
+            if (node.IsWalkable)
             {
-                if (!Physics.CheckSphere(node.WorldPosition, nodeRadius, allyMask) && !Physics.CheckSphere(node.WorldPosition, nodeRadius, unwalkableMask))
+                Instantiate(gridPrefabPassable, new Vector3(node.gridX - 5, 0, node.gridY - 4.5f), Quaternion.Euler(0, 0, 0));
+            }
+        }
+    }
+
+    public void UpdateGrid(LayerMask notMask)
+    {
+        foreach (Node node in grid)
+        {
+            if (!Physics.CheckSphere(node.WorldPosition, nodeRadius, notMask))
+            {
+                if (!Physics.CheckSphere(node.WorldPosition, nodeRadius, unwalkableMask))
                 {
                     node.IsWalkable = true;
                 }
-                else
-                {
-                    node.IsWalkable = false;
-                }
+            }
+            else
+            {
+                node.IsWalkable = false;
             }
         }
     }

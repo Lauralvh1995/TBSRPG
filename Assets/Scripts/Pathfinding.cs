@@ -148,8 +148,8 @@ public class Pathfinding : MonoBehaviour
         return pathWayPoints.ToArray();
     }
 
-    public void StartFindPath(Vector3 startPos, Vector3 targetPos)
+    public IEnumerator StartFindPath(Vector3 startPos, Vector3 targetPos)
     {
-        StartCoroutine(FindPath(startPos, targetPos));
+        yield return StartCoroutine(FindPath(startPos, targetPos));
     }
 }

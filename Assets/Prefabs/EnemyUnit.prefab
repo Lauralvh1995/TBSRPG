@@ -22,7 +22,7 @@ GameObject:
   - component: {fileID: 33258409682474680}
   - component: {fileID: 135323372236080314}
   - component: {fileID: 23576440771930104}
-  m_Layer: 8
+  m_Layer: 12
   m_Name: Sphere
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -40,7 +40,7 @@ GameObject:
   - component: {fileID: 33383373114266940}
   - component: {fileID: 136356653772810150}
   - component: {fileID: 23934224618345954}
-  m_Layer: 8
+  m_Layer: 12
   m_Name: Seeker
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -56,7 +56,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4828261115763988}
   - component: {fileID: 114198965262980200}
-  m_Layer: 8
+  m_Layer: 12
   m_Name: EnemyUnit
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -74,7 +74,7 @@ GameObject:
   - component: {fileID: 33104253686076040}
   - component: {fileID: 135849600555888988}
   - component: {fileID: 23877369711786214}
-  m_Layer: 8
+  m_Layer: 12
   m_Name: Sphere (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -269,8 +269,8 @@ MonoBehaviour:
   initiative: 4
   maxAP: 2
   AP: 2
-  threatValue: 4
   walkingDist: 3
+  walking: 0
   equipped: {fileID: 0}
   cAggro: 2
   cDef: 1

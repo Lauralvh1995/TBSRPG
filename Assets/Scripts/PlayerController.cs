@@ -27,7 +27,6 @@ public abstract class PlayerController : MonoBehaviour
     }
     public void OnPathFound(Vector3[] newPath, bool pathSuccessful)
     {
-        lineRenderer.enabled = false;
         if (pathSuccessful)
         {
             path = newPath;

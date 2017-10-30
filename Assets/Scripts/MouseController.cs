@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -21,20 +22,21 @@ public class MouseController : PlayerController {
             currentTileCoord.x = x + 0.5f;
             currentTileCoord.z = y + 0.5f;
 
-            if (previousTileCoord != currentTileCoord)
+            if (previousTileCoord != currentTileCoord && setUnit != null)
             {
                 selectionCube.position = currentTileCoord;
                 PathRequestManager.RequestPath(setUnit.transform.position, selectionCube.position, OnPathFound);
                 setUnit.transform.LookAt(selectionCube);
+                setUnit.SetTarget(selectionCube);
             }
-            setUnit.SetTarget(selectionCube);
             previousTileCoord = currentTileCoord;
         }
         MoveCamera();
     }
     public void MouseDown()
     {
-        StartCoroutine(setUnit.Move());
+        GameController.instance.wait = true;
+        StartCoroutine(setUnit.MoveUnit());
     }
 
     void MoveCamera()

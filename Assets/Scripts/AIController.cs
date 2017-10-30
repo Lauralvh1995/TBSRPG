@@ -8,13 +8,13 @@ using UnityEngine;
 public class AIController : PlayerController
 {
     System.Random rando = new System.Random();
-
     public int Move()
     {
         return rando.Next(0, 7);
     }
     public void GetPath()
     {
+        GameController.instance.wait = true;
         Vector3 newPos = new Vector3();
         while (true)
         {
@@ -52,16 +52,14 @@ public class AIController : PlayerController
                     newPos.x = setUnit.transform.position.x + 1;
                     newPos.z = setUnit.transform.position.z - 1;
                     break;
-
-                 
             }
-            if(grid.NodeFromWorldPoint(newPos).IsWalkable)
+            if (grid.NodeFromWorldPoint(newPos).IsWalkable)
             {
                 selectionCube.position = newPos;
                 PathRequestManager.RequestPath(setUnit.transform.position, selectionCube.position, OnPathFound);
                 setUnit.SetTarget(selectionCube);
-                StartCoroutine(setUnit.Move());
-                //return;
+                StartCoroutine(setUnit.MoveUnit());
+                return;
             }
         }
     }
