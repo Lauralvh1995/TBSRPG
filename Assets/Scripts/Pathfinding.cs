@@ -6,12 +6,12 @@ using UnityEngine;
 
 public class Pathfinding : MonoBehaviour
 {
-    Grid grid;
+    NodeGrid grid;
     PathRequestManager requestManager;
 
     void Awake()
     {
-        grid = GetComponent<Grid>();
+        grid = GetComponent<NodeGrid>();
         requestManager = GetComponent<PathRequestManager>();
     }
 

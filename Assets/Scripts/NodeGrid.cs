@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Grid : MonoBehaviour
+public class NodeGrid : MonoBehaviour
 {
     public bool displayGridGizmos;
     public LayerMask unwalkableMask;

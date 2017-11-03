@@ -13,12 +13,12 @@ public abstract class PlayerController : MonoBehaviour
 
     protected Unit setUnit;
     protected Vector3[] path;
-    protected Grid grid;
+    protected NodeGrid grid;
 
 
     void Awake()
     {
-        grid = GetComponent<Grid>();
+        grid = GetComponent<NodeGrid>();
     }
 
     public void SetUnit(Unit unit)

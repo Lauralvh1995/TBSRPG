@@ -9,6 +9,8 @@ public abstract class Unit : MonoBehaviour, IComparable<Unit> {
     
     public float speed = 20;
     public float rotationSpeed = 50;
+    public int hp;
+    public int maxHP;
     public int initiative;
     public int maxAP;
     public int AP;
@@ -22,6 +24,7 @@ public abstract class Unit : MonoBehaviour, IComparable<Unit> {
     Vector3 currentWaypoint;
     Stopwatch timer = new Stopwatch();
 
+    System.Random rando = new System.Random();
 
     public IEnumerator MoveUnit()
     {
@@ -120,6 +123,54 @@ public abstract class Unit : MonoBehaviour, IComparable<Unit> {
 
     public void Attack(Unit unit)
     {
-        throw new NotImplementedException();
+        int accuracy = equipped.GetAccuracy();
+        if (IsTargetWithinRange(unit))
+        {
+            //raycast, if through cover, accuracy penalty. Layer 9 = half cover; Layer 10 = full cover;
+            Ray ray = new Ray(transform.position, unit.transform.position - transform.position);
+            RaycastHit[] hitInfo = Physics.RaycastAll(ray, Vector3.Distance(transform.position, unit.transform.position), 11);
+            foreach (RaycastHit hit in hitInfo)
+            {
+                if (hit.transform.gameObject.layer == 9)
+                {
+                    accuracy -= 5;
+                }
+                if (hit.transform.gameObject.layer == 10)
+                {
+                    accuracy -= 10;
+                }
+            }
+            int crit = rando.Next(0, 100);
+            if (crit < accuracy)
+            {
+                int damage = equipped.GetDamage(); // +/- modifiers
+                if (crit < equipped.GetAccuracy() / 10)
+                {
+                    //if crit, deal double damage;
+                    damage += damage;
+                }
+                unit.hp -= damage;
+            }
+            else
+            {
+                unit.hp -= 0; //miss
+            }
+        }
+        else
+        {
+            //no attack at all
+        }
+    }
+
+    bool IsTargetWithinRange(Unit unit)
+    {
+        if(Mathf.Abs(unit.transform.position.x - transform.position.x) <= equipped.GetRange())
+        {
+            if (Mathf.Abs(unit.transform.position.z - transform.position.z) <= equipped.GetRange())
+            {
+                return true;
+            }
+        }
+        return false;
     }
 }

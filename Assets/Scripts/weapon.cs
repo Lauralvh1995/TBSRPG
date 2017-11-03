@@ -10,5 +10,19 @@ public class Weapon : MonoBehaviour
     int damage;
     int accuracy;
 
-    
+
+    public int GetAccuracy()
+    {
+        return accuracy;
+    }
+
+    public int GetRange()
+    {
+        return attackRange;
+    }
+
+    public int GetDamage()
+    {
+        return damage;
+    }
 }

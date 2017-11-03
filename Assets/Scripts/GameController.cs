@@ -5,6 +5,15 @@ using System.Linq;
 using System.Text;
 using UnityEngine;
 
+public enum Mode
+{
+    Walk,
+    Attack,
+    Skill1,
+    Skill2,
+    Skill3
+}
+
 class GameController : MonoBehaviour
 {
     Unit unit1;
@@ -23,7 +32,7 @@ class GameController : MonoBehaviour
 
     public static GameController instance = null;
 
-    Grid grid;
+    NodeGrid grid;
     MouseController mouseController;
     AIController aiController;
 
@@ -47,7 +56,7 @@ class GameController : MonoBehaviour
         {
             Destroy(gameObject);
         }
-        grid = GetComponent<Grid>();
+        grid = GetComponent<NodeGrid>();
         mouseController = GetComponent<MouseController>();
         aiController = GetComponent<AIController>();
         units = new List<Unit>();
