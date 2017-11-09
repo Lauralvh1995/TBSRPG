@@ -42,6 +42,8 @@ class GameController : MonoBehaviour
     //Coroutine routine;
     [HideInInspector]
     public bool wait;
+
+    Mode currentMode;
     
 
     int initiativeCount = 0;
@@ -62,6 +64,27 @@ class GameController : MonoBehaviour
         units = new List<Unit>();
 
         Setup();
+    }
+
+    public void SetModeWalking()
+    {
+        currentMode = Mode.Walk;
+    }
+    public void SetModeAttack()
+    {
+        currentMode = Mode.Attack;
+    }
+    public void SetModeSkill1()
+    {
+        currentMode = Mode.Skill1;
+    }
+    public void SetModeSkill2()
+    {
+        currentMode = Mode.Skill2;
+    }
+    public void SetModeSkill3()
+    {
+        currentMode = Mode.Skill3;
     }
 
     void Setup()
@@ -171,6 +194,10 @@ class GameController : MonoBehaviour
         if(done)
         {
             NextTurn();
+        }
+        else
+        {
+            wait = false;
         }
         return done;
     }

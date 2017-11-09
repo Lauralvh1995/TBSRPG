@@ -25,7 +25,7 @@ public class MouseController : PlayerController {
             if (previousTileCoord != currentTileCoord && setUnit != null)
             {
                 selectionCube.position = currentTileCoord;
-                PathRequestManager.RequestPath(setUnit.transform.position, selectionCube.position, OnPathFound);
+                PathRequestManager.RequestPath(setUnit.transform.position, selectionCube.position, setUnit.walkingDist, OnPathFound);
                 setUnit.transform.LookAt(selectionCube);
                 setUnit.SetTarget(selectionCube);
             }
