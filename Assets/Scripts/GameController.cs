@@ -42,6 +42,7 @@ class GameController : MonoBehaviour
     //Coroutine routine;
     [HideInInspector]
     public bool wait;
+    public bool aboveUI;
 
     Mode currentMode;
     
@@ -66,25 +67,9 @@ class GameController : MonoBehaviour
         Setup();
     }
 
-    public void SetModeWalking()
+    public void SetMode(Mode mode)
     {
-        currentMode = Mode.Walk;
-    }
-    public void SetModeAttack()
-    {
-        currentMode = Mode.Attack;
-    }
-    public void SetModeSkill1()
-    {
-        currentMode = Mode.Skill1;
-    }
-    public void SetModeSkill2()
-    {
-        currentMode = Mode.Skill2;
-    }
-    public void SetModeSkill3()
-    {
-        currentMode = Mode.Skill3;
+        currentMode = mode;
     }
 
     void Setup()
@@ -140,9 +125,14 @@ class GameController : MonoBehaviour
         //Begin met kijken wat voor soort unit aan de beurt is.
         if (currentUnit is AllyUnit && wait == false)
         {
-            if (Input.GetMouseButtonDown(0))
+            if (Input.GetMouseButtonDown(0) && !aboveUI)
             {
-                mouseController.MouseDown();
+                switch (currentMode)
+                {
+                    case Mode.Walk:
+                    mouseController.MouseDown();
+                    break;
+                }
             }
         }
         else if(currentUnit is EnemyUnit && wait == false)
