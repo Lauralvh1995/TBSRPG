@@ -56,7 +56,7 @@ public class AIController : PlayerController
             if (grid.NodeFromWorldPoint(newPos).IsWalkable)
             {
                 selectionCube.position = newPos;
-                PathRequestManager.RequestPath(setUnit.transform.position, selectionCube.position, OnPathFound);
+                PathRequestManager.RequestPath(setUnit.transform.position, selectionCube.position, setUnit.walkingDist, OnPathFound);
                 setUnit.SetTarget(selectionCube);
                 StartCoroutine(setUnit.MoveUnit());
                 return;

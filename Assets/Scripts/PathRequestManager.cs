@@ -19,10 +19,11 @@ public class PathRequestManager : MonoBehaviour {
         pathfinding = GetComponent<Pathfinding>();
     }
 
-    public static IEnumerator RequestPath(Vector3 pathStart, Vector3 pathEnd, Action<Vector3[], bool> callback)
+    public static IEnumerator RequestPath(Vector3 pathStart, Vector3 pathEnd, int maxLength, Action<Vector3[], bool> callback)
     {
         PathRequest newRequest = new PathRequest(pathStart, pathEnd, callback);
         instance.PathRequestQueue.Enqueue(newRequest);
+        instance.pathfinding.SetMaxLenght(maxLength);
         yield return instance.TryProcessNext();
     }
 

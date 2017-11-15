@@ -28,7 +28,7 @@ public abstract class Unit : MonoBehaviour, IComparable<Unit> {
 
     public IEnumerator MoveUnit()
     {
-        yield return StartCoroutine(PathRequestManager.RequestPath(transform.position, target.position, OnPathFound));
+        yield return StartCoroutine(PathRequestManager.RequestPath(transform.position, target.position, walkingDist, OnPathFound));
     }
 
     public void OnPathFound(Vector3[] newPath, bool pathSuccessful)
@@ -47,35 +47,46 @@ public abstract class Unit : MonoBehaviour, IComparable<Unit> {
 
     IEnumerator FollowPath()
     {
-        timer.Start();
-        currentWaypoint = path[0];
-        targetIndex = 0;
-        while (true)
+        if (path.Length != 0)
         {
-            if (transform.position == currentWaypoint)
+            timer.Start();
+            currentWaypoint = path[0];
+            targetIndex = 0;
+            while (true)
             {
-                targetIndex++;
-                if (targetIndex >= path.Length)
+                if (transform.position == currentWaypoint)
                 {
-                    timer.Stop();
-                    UnityEngine.Debug.Log(timer.Elapsed);
-                    if (transform.position == currentWaypoint)
+                    targetIndex++;
+                    if (targetIndex >= path.Length)
                     {
-                        GameController.instance.Done(true);
-                        GameController.instance.wait = false;
+                        timer.Stop();
+                        UnityEngine.Debug.Log(timer.Elapsed);
+                        if (transform.position == currentWaypoint && currentWaypoint != path[0])
+                        {
+                            GameController.instance.Done(true);
+                            GameController.instance.wait = false;
+                        }
+                        else
+                        {
+                            GameController.instance.Done(false);
+                        }
+                        targetIndex = 0;
+                        path = new Vector3[0];
+                        yield break;
                     }
-                    targetIndex = 0;
-                    path = new Vector3[0];
-                    yield break;                    
+                    currentWaypoint = path[targetIndex];
                 }
-                currentWaypoint = path[targetIndex];
+                //Rotate Towards Next Waypoint
+                Vector3 targetDir = currentWaypoint - transform.position;
+                float step = rotationSpeed * Time.deltaTime;
+                Vector3 newDir = Vector3.RotateTowards(transform.forward, targetDir, step, 0.0F);
+                transform.rotation = Quaternion.LookRotation(newDir);
+                transform.position = Vector3.MoveTowards(transform.position, currentWaypoint, speed * Time.deltaTime);
+                yield return null;
             }
-            //Rotate Towards Next Waypoint
-            Vector3 targetDir = currentWaypoint - transform.position;
-            float step = rotationSpeed * Time.deltaTime;
-            Vector3 newDir = Vector3.RotateTowards(transform.forward, targetDir, step, 0.0F);
-            transform.rotation = Quaternion.LookRotation(newDir);
-            transform.position = Vector3.MoveTowards(transform.position, currentWaypoint, speed * Time.deltaTime);
+        }
+        else
+        {
             yield return null;
         }
     }

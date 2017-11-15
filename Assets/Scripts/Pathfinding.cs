@@ -6,6 +6,8 @@ using UnityEngine;
 
 public class Pathfinding : MonoBehaviour
 {
+    public int maxLength;
+
     NodeGrid grid;
     PathRequestManager requestManager;
 
@@ -13,6 +15,11 @@ public class Pathfinding : MonoBehaviour
     {
         grid = GetComponent<NodeGrid>();
         requestManager = GetComponent<PathRequestManager>();
+    }
+
+    public void SetMaxLenght(int length)
+    {
+        maxLength = length;
     }
 
     IEnumerator FindPath(Vector3 startPosition, Vector3 endPosition)
@@ -78,8 +85,12 @@ public class Pathfinding : MonoBehaviour
         {
             waypoints = RetracePath(startNode, targetNode);
         }
+        else
+        {
+            waypoints = RetracePath(startNode, startNode);
+            pathSuccess = true;
+        }
         requestManager.FinishedProcessingPath(waypoints, pathSuccess);
-
     }
 
     int GetDistance(Node a, Node b)
@@ -113,8 +124,15 @@ public class Pathfinding : MonoBehaviour
             path.Add(currentNode);
         }
         path.Add(startNode);
-
-        Vector3[] waypoints = SimplifyPath(path);
+        Vector3[] waypoints;
+        if (path.Count > maxLength+2)
+        {
+            waypoints = new Vector3[1] { startNode.WorldPosition };
+        }
+        else
+        {
+            waypoints = SimplifyPath(path);
+        }
         Array.Reverse(waypoints);
         return waypoints;
     }
