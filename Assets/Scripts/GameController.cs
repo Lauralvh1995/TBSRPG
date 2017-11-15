@@ -70,6 +70,7 @@ class GameController : MonoBehaviour
     public void SetMode(Mode mode)
     {
         currentMode = mode;
+        Debug.Log("Current Mode: " + currentMode.ToString());
     }
 
     void Setup()
