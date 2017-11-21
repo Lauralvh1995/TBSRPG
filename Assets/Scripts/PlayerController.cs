@@ -30,13 +30,21 @@ public abstract class PlayerController : MonoBehaviour
         if (pathSuccessful)
         {
             path = newPath;
-            if (this != null)
+            lineRenderer.enabled = true;
+            lineRenderer.positionCount = path.Length;
+            lineRenderer.SetPositions(path);
+        }
+    }
+    protected Unit GetTarget()
+    {
+        foreach (Unit unit in GameController.instance.units)
+        {
+            if (unit.transform.position == selectionCube.position)
             {
-                lineRenderer.positionCount = path.Length;
-                lineRenderer.SetPositions(path);
-                lineRenderer.enabled = true;
+                return unit;
             }
         }
+        return null;
     }
 }
     

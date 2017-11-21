@@ -4,13 +4,18 @@ using System.Linq;
 using System.Text;
 using UnityEngine;
 
-public class Weapon : MonoBehaviour
+public class Weapon
 {
-    int attackRange;
-    int damage;
-    int accuracy;
+    public int attackRange;
+    public int damage;
+    public int accuracy;
 
-
+    public Weapon(int attRange, int dmg, int acc)
+    {
+        attackRange = attRange;
+        damage = dmg;
+        accuracy = acc;
+    }
     public int GetAccuracy()
     {
         return accuracy;

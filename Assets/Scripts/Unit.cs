@@ -18,13 +18,13 @@ public abstract class Unit : MonoBehaviour, IComparable<Unit> {
 
     public Weapon equipped;
 
-    Vector3[] path;
-    int targetIndex;
-    public Transform target;
-    Vector3 currentWaypoint;
-    Stopwatch timer = new Stopwatch();
+    private Vector3[] path;
+    private int targetIndex;
+    private Vector3 currentWaypoint;
+    private Stopwatch timer = new Stopwatch();
+    private Transform target;
 
-    System.Random rando = new System.Random();
+    private System.Random rando = new System.Random();
 
     public IEnumerator MoveUnit()
     {
@@ -135,41 +135,50 @@ public abstract class Unit : MonoBehaviour, IComparable<Unit> {
     public void Attack(Unit unit)
     {
         int accuracy = equipped.GetAccuracy();
-        if (IsTargetWithinRange(unit))
+        if (unit != null)
         {
-            //raycast, if through cover, accuracy penalty. Layer 9 = half cover; Layer 10 = full cover;
-            Ray ray = new Ray(transform.position, unit.transform.position - transform.position);
-            RaycastHit[] hitInfo = Physics.RaycastAll(ray, Vector3.Distance(transform.position, unit.transform.position), 11);
-            foreach (RaycastHit hit in hitInfo)
+            if (IsTargetWithinRange(unit))
             {
-                if (hit.transform.gameObject.layer == 9)
+                //raycast, if through cover, accuracy penalty. Layer 9 = half cover; Layer 10 = full cover;
+                Ray ray = new Ray(transform.position, unit.transform.position - transform.position);
+                RaycastHit[] hitInfo = Physics.RaycastAll(ray, Vector3.Distance(transform.position, unit.transform.position), 11);
+                foreach (RaycastHit hit in hitInfo)
                 {
-                    accuracy -= 5;
+                    if (hit.transform.gameObject.layer == 9)
+                    {
+                        accuracy -= 5;
+                    }
+                    if (hit.transform.gameObject.layer == 10)
+                    {
+                        accuracy -= 10;
+                    }
                 }
-                if (hit.transform.gameObject.layer == 10)
+                int crit = rando.Next(0, 100);
+                if (crit < accuracy)
                 {
-                    accuracy -= 10;
+                    int damage = equipped.GetDamage(); // +/- modifiers
+                    if (crit < equipped.GetAccuracy() / 10)
+                    {
+                        //if crit, deal double damage;
+                        damage += damage;
+                    }
+                    unit.hp -= damage;
                 }
-            }
-            int crit = rando.Next(0, 100);
-            if (crit < accuracy)
-            {
-                int damage = equipped.GetDamage(); // +/- modifiers
-                if (crit < equipped.GetAccuracy() / 10)
+                else
                 {
-                    //if crit, deal double damage;
-                    damage += damage;
+                    unit.hp -= 0; //miss
                 }
-                unit.hp -= damage;
             }
             else
             {
-                unit.hp -= 0; //miss
+                //no attack at all
             }
+            GameController.instance.Done(true);
+            UnityEngine.Debug.Log(unit.hp);
         }
         else
         {
-            //no attack at all
+            GameController.instance.Done(false);
         }
     }
 

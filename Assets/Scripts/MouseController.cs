@@ -39,6 +39,11 @@ public class MouseController : PlayerController {
         StartCoroutine(setUnit.MoveUnit());
     }
 
+    public void Attack()
+    {
+        setUnit.Attack(GetTarget());
+    }
+
     void MoveCamera()
     {
         float mousePosX = Input.mousePosition.x;
@@ -54,7 +59,6 @@ public class MouseController : PlayerController {
         if (mousePosX >= Screen.width - scrollDistance)
         {
             cameraTransform.Translate(new Vector3(-1, 0, 1) * -scrollSpeed * Time.deltaTime);
-            
         }
 
         if (mousePosY < scrollDistance)
@@ -69,12 +73,17 @@ public class MouseController : PlayerController {
 
         if (Input.GetAxis("Mouse ScrollWheel") > 0f)
         {
-            cameraTransform.Translate(new Vector3(1, -1, 1) * scrollSpeed * Time.deltaTime);
+            cameraTransform.Translate(new Vector3(1, -0.75f, 1) * scrollSpeed * Time.deltaTime);
         }
 
         if (Input.GetAxis("Mouse ScrollWheel") < 0f)
         {
-            cameraTransform.Translate(new Vector3(-1, 1, -1) * scrollSpeed * Time.deltaTime);
+            cameraTransform.Translate(new Vector3(-1, 0.75f, -1) * scrollSpeed * Time.deltaTime);
+        }
+
+        if (Input.GetKeyDown(KeyCode.Return))
+        {
+            cameraTransform.position = Vector3.zero;
         }
     }
 }

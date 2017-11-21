@@ -21,6 +21,10 @@ class GameController : MonoBehaviour
     Unit unit3;
     Unit unit4;
 
+    Weapon club;
+    Weapon shotgun;
+    Weapon pistol;
+    Weapon knife;
 
     public Transform AllyPrefab;
     public Transform EnemyPrefab;
@@ -36,12 +40,13 @@ class GameController : MonoBehaviour
     MouseController mouseController;
     AIController aiController;
 
-    List<Unit> units;
+    public List<Unit> units;
     Unit currentUnit;
 
     //Coroutine routine;
     [HideInInspector]
     public bool wait;
+    [HideInInspector]
     public bool aboveUI;
 
     Mode currentMode;
@@ -85,6 +90,16 @@ class GameController : MonoBehaviour
         unit3.SetTarget(unit3.transform);
         unit4.SetTarget(unit4.transform);
 
+        club = new Weapon(1, 3, 70);
+        shotgun = new Weapon(3, 3, 70);
+        pistol = new Weapon(3, 1, 100);
+        knife = new Weapon(1, 1, 100);
+
+        unit1.equipped = club;
+        unit2.equipped = knife;
+        unit3.equipped = pistol;
+        unit4.equipped = shotgun;
+
         units.Add(unit1);
         units.Add(unit2);
         units.Add(unit3);
@@ -107,9 +122,10 @@ class GameController : MonoBehaviour
         aiController.selectionCube = Instantiate(AISelectorPrefab, new Vector3(0, 0, 0), Quaternion.Euler(0, 0, 0));
 
         mouseController.lineRenderer = Instantiate(lineRenderer);
-        aiController.lineRenderer = Instantiate(lineRenderer);
         mouseController.lineRenderer.enabled = false;
+        aiController.lineRenderer = Instantiate(lineRenderer);
         aiController.lineRenderer.enabled = false;
+
         if(units[0] is AllyUnit)
         {
             grid.CheckPassability(true);
@@ -131,8 +147,11 @@ class GameController : MonoBehaviour
                 switch (currentMode)
                 {
                     case Mode.Walk:
-                    mouseController.MouseDown();
-                    break;
+                        mouseController.MouseDown();
+                        break;
+                    case Mode.Attack:
+                        mouseController.Attack();
+                        break;
                 }
             }
         }
