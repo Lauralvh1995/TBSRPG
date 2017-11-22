@@ -4,6 +4,7 @@ using System.Collections;
 using System.Linq;
 using System.Text;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public enum Mode
 {
@@ -32,6 +33,11 @@ class GameController : MonoBehaviour
     public Transform SelectorPrefab;
     public Transform AISelectorPrefab;
 
+    public GameObject victory;
+    public GameObject defeat;
+    public GameObject restart;
+    public GameObject quit;
+
     public LineRenderer lineRenderer;
 
     public static GameController instance = null;
@@ -53,6 +59,14 @@ class GameController : MonoBehaviour
     
 
     int initiativeCount = 0;
+    private void Start()
+    {
+        victory.SetActive(false);
+        defeat.SetActive(false);
+        restart.SetActive(false);
+        quit.SetActive(false);
+    }
+
 
     void Awake()
     {
@@ -80,10 +94,10 @@ class GameController : MonoBehaviour
 
     void Setup()
     {
-        unit1 = Instantiate(AllyPrefab, new Vector3(-2.5f, 0, -2.5f), Quaternion.Euler(0, 0, 0)).GetComponent<AllyUnit>();
-        unit2 = Instantiate(EnemyPrefab, new Vector3(-1.5f, 0, -2.5f), Quaternion.Euler(0, 0, 0)).GetComponent<EnemyUnit>();
-        unit3 = Instantiate(EnemyPrefab, new Vector3(2.5f, 0, 2.5f), Quaternion.Euler(0, 0, 0)).GetComponent<EnemyUnit>();
-        unit4 = Instantiate(AllyPrefab, new Vector3(-2.5f, 0, -0.5f), Quaternion.Euler(0, 0, 0)).GetComponent<AllyUnit>();
+        unit1 = Instantiate(AllyPrefab, new Vector3(-2.5f, 0, -2.5f), Quaternion.Euler(0, 0, 0)).GetComponent<Unit>();
+        unit2 = Instantiate(EnemyPrefab, new Vector3(-1.5f, 0, -2.5f), Quaternion.Euler(0, 0, 0)).GetComponent<Unit>();
+        unit3 = Instantiate(EnemyPrefab, new Vector3(2.5f, 0, 2.5f), Quaternion.Euler(0, 0, 0)).GetComponent<Unit>();
+        unit4 = Instantiate(AllyPrefab, new Vector3(-2.5f, 0, -0.5f), Quaternion.Euler(0, 0, 0)).GetComponent<Unit>();
 
         unit1.SetTarget(unit1.transform);
         unit2.SetTarget(unit2.transform);
@@ -109,7 +123,7 @@ class GameController : MonoBehaviour
 
         currentUnit = units[0];
 
-        if (currentUnit is AllyUnit)
+        if (currentUnit.ally)
         {
             mouseController.SetUnit(currentUnit);
         }
@@ -126,7 +140,7 @@ class GameController : MonoBehaviour
         aiController.lineRenderer = Instantiate(lineRenderer);
         aiController.lineRenderer.enabled = false;
 
-        if(units[0] is AllyUnit)
+        if(units[0].ally)
         {
             grid.CheckPassability(true);
         }
@@ -140,7 +154,7 @@ class GameController : MonoBehaviour
     {
         //Update is van zichzelf een loop. Dus hier hoeft geen while(iets) omheen.
         //Begin met kijken wat voor soort unit aan de beurt is.
-        if (currentUnit is AllyUnit && wait == false)
+        if (currentUnit.ally && wait == false)
         {
             if (Input.GetMouseButtonDown(0) && !aboveUI)
             {
@@ -150,14 +164,17 @@ class GameController : MonoBehaviour
                         mouseController.MouseDown();
                         break;
                     case Mode.Attack:
-                        mouseController.Attack();
+                        Done(mouseController.Attack());
                         break;
                 }
             }
         }
-        else if(currentUnit is EnemyUnit && wait == false)
+        else if(!currentUnit.ally && wait == false)
         {
-            aiController.GetPath();
+            if (currentUnit != null)
+            {
+                aiController.GetPath();
+            }
         }
         //In de coroutines zelf wordt de wait boolean op true gezet.
         //Als er moet worden gewacht, wat zo is als het commando om te lopen wordt gegeven, start met wachten.
@@ -184,19 +201,21 @@ class GameController : MonoBehaviour
             initiativeCount = 0;
         }
         currentUnit = units[initiativeCount];
-        if(currentUnit is AllyUnit)
+        if(currentUnit.ally)
         {
+            CheckVictory(true);
             mouseController.SetUnit(currentUnit);
             //aiController.SetUnit(null);
             grid.CheckPassability(true);
         }
-        else if(currentUnit is EnemyUnit)
+        else if(!currentUnit.ally)
         {
+            CheckVictory(false);
             aiController.SetUnit(currentUnit);
             //mouseController.SetUnit(null);
             grid.CheckPassability(false);
         }
-        Debug.Log(initiativeCount + " " + (currentUnit is AllyUnit));
+        Debug.Log(initiativeCount + " " + (currentUnit.ally));
     }
 
     public bool Done(bool done)
@@ -210,6 +229,69 @@ class GameController : MonoBehaviour
             wait = false;
         }
         return done;
+    }
+
+    public void PurgeList()
+    {
+        foreach(Unit unit in units.ToList())
+        {
+            if(unit.hp <=0)
+            {
+                units.Remove(unit);
+            }
+        }
+    }
+
+    void CheckVictory(bool ally)
+    {
+        List<Unit> checkList = new List<Unit>();
+        foreach(Unit unit in units)
+        {
+            if(unit.ally == ally)
+            {
+                checkList.Add(unit);
+            }
+        }
+        if(units.Count == checkList.Count)
+        {
+            foreach (Unit unit in units)
+            {
+                if (unit.ally)
+                {
+                    PlayerWins();
+                    return;
+                }
+                else
+                {
+                    PlayerLoses();
+                    return;
+                }
+            }
+        }
+    }
+
+    public void PlayerWins()
+    {
+        victory.SetActive(true);
+        restart.SetActive(true);
+        quit.SetActive(true);
+    }
+
+    public void PlayerLoses()
+    {
+        defeat.SetActive(true);
+        restart.SetActive(true);
+        quit.SetActive(true);
+    }
+
+    public void Restart()
+    {
+        SceneManager.GetActiveScene();
+    }
+
+    public void QuitGame()
+    {
+        Application.Quit();
     }
 }
 

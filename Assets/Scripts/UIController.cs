@@ -1,10 +1,25 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public class UIController : MonoBehaviour {
 
+    public static UIController instance;
+    void Awake()
+    {
+        if (instance == null)
+        {
+            instance = this;
+        }
+        else if (instance != null)
+        {
+            Destroy(gameObject);
+        }
+
+    }
     void Update()
     {
         if (EventSystem.current.IsPointerOverGameObject())
@@ -37,5 +52,4 @@ public class UIController : MonoBehaviour {
     {
         GameController.instance.SetMode(Mode.Skill3);
     }
-
 }

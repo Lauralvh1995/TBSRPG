@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using UnityEngine;
 
-public abstract class Unit : MonoBehaviour, IComparable<Unit> {
+public class Unit : MonoBehaviour, IComparable<Unit> {
 
     
     public float speed = 20;
@@ -15,6 +15,7 @@ public abstract class Unit : MonoBehaviour, IComparable<Unit> {
     public int maxAP;
     public int AP;
     public int walkingDist;
+    public bool ally;
 
     public Weapon equipped;
 
@@ -26,9 +27,23 @@ public abstract class Unit : MonoBehaviour, IComparable<Unit> {
 
     private System.Random rando = new System.Random();
 
+    private void Update()
+    {
+        if(hp <= 0)
+        {
+            Dies();
+        }
+    }
+
     public IEnumerator MoveUnit()
     {
         yield return StartCoroutine(PathRequestManager.RequestPath(transform.position, target.position, walkingDist, OnPathFound));
+    }
+
+    void Dies()
+    {
+        GameController.instance.PurgeList();
+        Destroy(gameObject);
     }
 
     public void OnPathFound(Vector3[] newPath, bool pathSuccessful)
@@ -132,7 +147,7 @@ public abstract class Unit : MonoBehaviour, IComparable<Unit> {
         target = transform;
     }
 
-    public void Attack(Unit unit)
+    public bool Attack(Unit unit)
     {
         int accuracy = equipped.GetAccuracy();
         if (unit != null)
@@ -173,12 +188,12 @@ public abstract class Unit : MonoBehaviour, IComparable<Unit> {
             {
                 //no attack at all
             }
-            GameController.instance.Done(true);
             UnityEngine.Debug.Log(unit.hp);
+            return true;
         }
         else
         {
-            GameController.instance.Done(false);
+            return false;
         }
     }
 

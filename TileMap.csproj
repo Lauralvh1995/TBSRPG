@@ -222,8 +222,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Scripts\AIController.cs" />
-    <Compile Include="Assets\Scripts\AllyUnit.cs" />
-    <Compile Include="Assets\Scripts\EnemyUnit.cs" />
     <Compile Include="Assets\Scripts\GameController.cs" />
     <Compile Include="Assets\Scripts\NodeGrid.cs" />
     <Compile Include="Assets\Scripts\Heap.cs" />

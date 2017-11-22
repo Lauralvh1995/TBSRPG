@@ -39,9 +39,9 @@ public class MouseController : PlayerController {
         StartCoroutine(setUnit.MoveUnit());
     }
 
-    public void Attack()
+    public bool Attack()
     {
-        setUnit.Attack(GetTarget());
+        return setUnit.Attack(GetTarget());
     }
 
     void MoveCamera()
